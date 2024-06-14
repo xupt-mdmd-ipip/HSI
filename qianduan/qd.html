@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>变化检测界面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333;
+            margin-top: 20px;
+        }
+        .container {
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            width: 80%;
+            max-width: 800px;
+            margin: 20px;
+        }
+        .image-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .image-upload input {
+            display: none;
+        }
+        .image-upload label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .image-preview {
+            margin: 10px 0;
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #result {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #detect-btn {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #detect-btn:hover {
+            background-color: #218838;
+        }
+        #success-message {
+            color: #28a745;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>变化检测界面</h1>
+    <div class="container">
+        <div class="image-upload">
+            <h2>选择图像</h2>
+            <input type="file" id="preImage" accept=".mat">
+            <label for="preImage">选择前变化图像</label>
+            <input type="file" id="postImage" accept=".mat">
+            <label for="postImage">选择后变化图像</label>
+        </div>
+        <button id="detect-btn">开始检测</button>
+        <div id="result">
+            <h2>检测结果</h2>
+            <img id="resultImage" class="image-preview" src="" alt="">
+            <div id="success-message"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('detect-btn').addEventListener('click', function() {
+            const resultImageInput = document.createElement('input');
+            resultImageInput.type = 'file';
+            resultImageInput.accept = 'image/png';
+            resultImageInput.style.display = 'none';
+
+            resultImageInput.addEventListener('change', function() {
+                const file = resultImageInput.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('resultImage').src = e.target.result;
+                        document.getElementById('success-message').innerText = '变化检测成功';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            resultImageInput.click();
+        });
+    </script>
+</body>
+</html>
